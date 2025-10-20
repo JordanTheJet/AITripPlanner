@@ -90,10 +90,13 @@ ALTER TABLE lobby_members DROP CONSTRAINT IF EXISTS lobby_members_user_id_fkey;
 ALTER TABLE trips DROP CONSTRAINT IF EXISTS trips_created_by_fkey;
 ALTER TABLE chat_messages DROP CONSTRAINT IF EXISTS chat_messages_user_id_fkey;
 
--- Drop constraints for ai_contexts if it exists
+-- Drop constraints for ai_contexts if column exists
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'ai_contexts') THEN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'ai_contexts' AND column_name = 'user_id'
+  ) THEN
     EXECUTE 'ALTER TABLE ai_contexts DROP CONSTRAINT IF EXISTS ai_contexts_user_id_fkey';
   END IF;
 END $$;
@@ -112,18 +115,24 @@ ALTER TABLE lobby_members ALTER COLUMN user_id TYPE TEXT;
 ALTER TABLE trips ALTER COLUMN created_by TYPE TEXT;
 ALTER TABLE chat_messages ALTER COLUMN user_id TYPE TEXT;
 
--- Change ai_contexts table user_id if it exists
+-- Change ai_contexts table user_id if column exists
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'ai_contexts') THEN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'ai_contexts' AND column_name = 'user_id'
+  ) THEN
     EXECUTE 'ALTER TABLE ai_contexts ALTER COLUMN user_id TYPE TEXT';
   END IF;
 END $$;
 
--- Change profiles table ID if it exists
+-- Change profiles table ID if column exists
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'profiles') THEN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'id'
+  ) THEN
     EXECUTE 'ALTER TABLE profiles ALTER COLUMN id TYPE TEXT';
   END IF;
 END $$;
