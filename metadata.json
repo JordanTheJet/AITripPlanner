@@ -1,0 +1,7 @@
+{
+  "name": "AITripPlanner",
+  "description": "This interactive demo highlights Gemini and Grounding with Google Maps' ability to engage in real-time, voice-driven conversations. Plan multi-day trips using natural language and experience how Gemini leverages Google Maps to deliver accurate, up-to-the-minute information.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
