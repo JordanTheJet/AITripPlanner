@@ -215,6 +215,26 @@ export const tripPlanningTools: FunctionCall[] = [
   },
 
   {
+    name: 'getCurrentTrip',
+    description: `
+    Retrieves the current active trip with all its days and items. Use this to get day_ids when you need to add items to specific days.
+    This returns the complete trip data including all days with their IDs, dates, and existing items.
+
+    Args:
+        None
+
+    Returns:
+        Complete trip object with days array containing day_id, day_number, date, title, and items
+    `,
+    parameters: {
+      type: 'OBJECT',
+      properties: {}
+    },
+    isEnabled: true,
+    scheduling: FunctionResponseScheduling.ASYNC,
+  },
+
+  {
     name: 'showTripModal',
     description: `
     Displays the trip overview modal to the user, showing the full itinerary with all days and activities.

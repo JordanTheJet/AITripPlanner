@@ -112,6 +112,38 @@ export const tripToolHandlers = {
     }
   },
 
+  getCurrentTrip: async (args: any, context: ToolContext) => {
+    try {
+      const { currentTrip, days, items } = useTrip.getState();
+
+      if (!currentTrip) {
+        return {
+          success: false,
+          error: 'No active trip found. Please create a trip first using createTrip.'
+        };
+      }
+
+      // Organize items by day
+      const daysWithItems = days.map(day => ({
+        ...day,
+        items: items.filter(item => item.day_id === day.id)
+      }));
+
+      return {
+        success: true,
+        trip: {
+          ...currentTrip,
+          days: daysWithItems
+        }
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  },
+
   showTripModal: async (args: any, context: ToolContext) => {
     try {
       // Open the trip overview modal

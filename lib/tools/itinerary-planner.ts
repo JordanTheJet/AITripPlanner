@@ -7,10 +7,12 @@ import { FunctionCall } from '../state';
 import { FunctionResponseScheduling } from '@google/genai';
 import { tripPlanningTools } from './trip-planning-tools';
 import { exportTools } from './export-tools';
+import { activityTools } from './activity-tools';
 
 export const itineraryPlannerTools: FunctionCall[] = [
   ...tripPlanningTools,
   ...exportTools,
+  ...activityTools,
   {
     name: 'mapsGrounding',
     description: `

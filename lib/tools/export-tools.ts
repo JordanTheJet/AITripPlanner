@@ -85,5 +85,89 @@ export const exportTools: FunctionCall[] = [
       required: []
     },
     isEnabled: true
+  },
+  {
+    name: 'exportToPDF',
+    description: `
+    Exports the current trip itinerary as a printable PDF document.
+    Creates a beautifully formatted PDF with:
+    - Cover page with trip details
+    - Day-by-day itinerary with maps
+    - Activity list with times and addresses
+    - Budget breakdown
+    - Notes section
+
+    Use this when the user asks to:
+    - "Export to PDF"
+    - "Download as PDF"
+    - "Print the itinerary"
+    - "Create a PDF"
+
+    Returns: Downloads a PDF file to the user's device.
+    `,
+    parameters: {
+      type: 'OBJECT',
+      properties: {},
+      required: []
+    },
+    isEnabled: true
+  },
+  {
+    name: 'exportToJSON',
+    description: `
+    Exports the complete trip data as a JSON file for developers or backup purposes.
+    Includes all trip data in structured JSON format:
+    - Trip metadata
+    - All days with complete details
+    - All itinerary items with grounding data
+    - Budget information
+    - Timestamps
+
+    Use this when the user asks to:
+    - "Export as JSON"
+    - "Download trip data"
+    - "Backup my trip"
+    - "Get the raw data"
+
+    Returns: Downloads a JSON file with complete trip data.
+    `,
+    parameters: {
+      type: 'OBJECT',
+      properties: {},
+      required: []
+    },
+    isEnabled: true
+  },
+  {
+    name: 'exportToCSV',
+    description: `
+    Exports the trip itinerary as a CSV spreadsheet file.
+    Creates a CSV with columns:
+    - Day Number
+    - Date
+    - Time
+    - Activity Name
+    - Type (restaurant, activity, accommodation, etc.)
+    - Address
+    - Coordinates
+    - Estimated Cost
+    - Notes
+
+    Perfect for importing into Excel, Google Sheets, or other spreadsheet tools.
+
+    Use this when the user asks to:
+    - "Export to CSV"
+    - "Download as spreadsheet"
+    - "Export to Excel"
+    - "Get CSV file"
+
+    Returns: Downloads a CSV file that can be opened in any spreadsheet application.
+    `,
+    parameters: {
+      type: 'OBJECT',
+      properties: {},
+      required: []
+    },
+    isEnabled: true
   }
 ];

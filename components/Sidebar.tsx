@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 // FIX: Added missing React imports.
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSettings, useUI, useLogStore, useTools, personas } from '@/lib/state';
 import { useLobby } from '@/lib/stores/lobby-store';
 import { useTrip } from '@/lib/stores/trip-store';
 import { openModal } from '@/lib/modal-store';
+import LobbyChat from './LobbyChat';
 import c from 'classnames';
 import {
   AVAILABLE_VOICES_FULL,
@@ -46,6 +47,7 @@ export default function Sidebar() {
   const { connected } = useLiveAPIContext();
   const { currentLobby, leaveLobby } = useLobby();
   const { currentTrip } = useTrip();
+  const [activeTab, setActiveTab] = useState<'settings' | 'chat'>('settings');
 
   const availableVoices = useMemo(() => {
     return MODELS_WITH_LIMITED_VOICES.includes(model)
@@ -94,14 +96,55 @@ export default function Sidebar() {
     <>
       <aside className={c('sidebar', { open: isSidebarOpen })}>
         <div className="sidebar-header">
-          <h3>Settings</h3>
+          <h3>{activeTab === 'settings' ? 'Settings' : 'Lobby Chat'}</h3>
           <button onClick={toggleSidebar} className="close-button">
             <span className="icon">close</span>
           </button>
         </div>
-        <div className="sidebar-content">
-          {/* Lobby & Trip Info Section */}
-          <div className="sidebar-section">
+
+        {/* Tabs */}
+        <div style={{ display: 'flex', borderBottom: '1px solid #374151' }}>
+          <button
+            onClick={() => setActiveTab('settings')}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              background: activeTab === 'settings' ? '#1f2937' : 'transparent',
+              color: activeTab === 'settings' ? '#fff' : '#9ca3af',
+              border: 'none',
+              borderBottom: activeTab === 'settings' ? '2px solid #10b981' : 'none',
+              cursor: 'pointer',
+              fontWeight: activeTab === 'settings' ? 600 : 400,
+              transition: 'all 0.2s'
+            }}
+          >
+            Settings
+          </button>
+          <button
+            onClick={() => setActiveTab('chat')}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              background: activeTab === 'chat' ? '#1f2937' : 'transparent',
+              color: activeTab === 'chat' ? '#fff' : '#9ca3af',
+              border: 'none',
+              borderBottom: activeTab === 'chat' ? '2px solid #10b981' : 'none',
+              cursor: 'pointer',
+              fontWeight: activeTab === 'chat' ? 600 : 400,
+              transition: 'all 0.2s'
+            }}
+          >
+            Chat {currentLobby && '💬'}
+          </button>
+        </div>
+
+        <div className="sidebar-content" style={{ height: activeTab === 'chat' ? 'calc(100% - 120px)' : 'auto' }}>
+          {activeTab === 'chat' ? (
+            <LobbyChat />
+          ) : (
+            <div>
+              {/* Lobby & Trip Info Section */}
+              <div className="sidebar-section">
             <h4>Trip Planning</h4>
             {currentLobby ? (
               <div style={{marginBottom: '1rem', padding: '0.75rem', background: '#1f2937', borderRadius: '0.5rem', color: '#fff'}}>
@@ -223,19 +266,21 @@ export default function Sidebar() {
               </label>
             </div>
           </div>
-          <div className="sidebar-actions">
-            <button onClick={handleExportLogs} title="Export session logs">
-              <span className="icon">download</span>
-              Export Logs
-            </button>
-            <button
-              onClick={useLogStore.getState().clearTurns}
-              title="Reset session logs"
-            >
-              <span className="icon">refresh</span>
-              Reset Session
-            </button>
+            <div className="sidebar-actions">
+              <button onClick={handleExportLogs} title="Export session logs">
+                <span className="icon">download</span>
+                Export Logs
+              </button>
+              <button
+                onClick={useLogStore.getState().clearTurns}
+                title="Reset session logs"
+              >
+                <span className="icon">refresh</span>
+                Reset Session
+              </button>
+            </div>
           </div>
+        )}
         </div>
       </aside>
     </>

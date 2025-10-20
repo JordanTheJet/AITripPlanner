@@ -151,5 +151,68 @@ export const exportToolHandlers = {
       console.error('Error generating trip summary:', error);
       return `Failed to generate trip summary: ${error.message}`;
     }
+  },
+
+  /**
+   * Export trip to PDF
+   */
+  exportToPDF: async (args: any, context: ToolContext) => {
+    const { currentTrip } = useTrip.getState();
+
+    if (!currentTrip) {
+      return 'No active trip found. Please create a trip first.';
+    }
+
+    try {
+      const { downloadTripPDF } = await import('../exports/pdf');
+      await downloadTripPDF(currentTrip.id, currentTrip.name);
+
+      return `PDF downloaded! Your beautifully formatted itinerary for "${currentTrip.name}" is ready to print. Check your Downloads folder for the PDF file.`;
+    } catch (error: any) {
+      console.error('Error exporting to PDF:', error);
+      return `Failed to export to PDF: ${error.message}. Note: PDF export requires the jspdf library.`;
+    }
+  },
+
+  /**
+   * Export trip to JSON
+   */
+  exportToJSON: async (args: any, context: ToolContext) => {
+    const { currentTrip } = useTrip.getState();
+
+    if (!currentTrip) {
+      return 'No active trip found. Please create a trip first.';
+    }
+
+    try {
+      const { downloadTripJSON } = await import('../exports/json');
+      await downloadTripJSON(currentTrip.id, currentTrip.name);
+
+      return `JSON file downloaded! Complete trip data for "${currentTrip.name}" has been exported. You can use this for backup, data analysis, or importing into other systems.`;
+    } catch (error: any) {
+      console.error('Error exporting to JSON:', error);
+      return `Failed to export to JSON: ${error.message}`;
+    }
+  },
+
+  /**
+   * Export trip to CSV
+   */
+  exportToCSV: async (args: any, context: ToolContext) => {
+    const { currentTrip } = useTrip.getState();
+
+    if (!currentTrip) {
+      return 'No active trip found. Please create a trip first.';
+    }
+
+    try {
+      const { downloadTripCSV } = await import('../exports/csv');
+      await downloadTripCSV(currentTrip.id, currentTrip.name);
+
+      return `CSV file downloaded! Your itinerary for "${currentTrip.name}" is now in spreadsheet format. Open it with Excel, Google Sheets, or any spreadsheet application.`;
+    } catch (error: any) {
+      console.error('Error exporting to CSV:', error);
+      return `Failed to export to CSV: ${error.message}`;
+    }
   }
 };

@@ -436,6 +436,10 @@ export const toolRegistry: Record<string, ToolImplementation> = {
     const { tripToolHandlers } = await import('./trip-tool-handlers');
     return tripToolHandlers.updateBudget(args, context);
   },
+  getCurrentTrip: async (args, context) => {
+    const { tripToolHandlers } = await import('./trip-tool-handlers');
+    return tripToolHandlers.getCurrentTrip(args, context);
+  },
   showTripModal: async (args, context) => {
     const { tripToolHandlers } = await import('./trip-tool-handlers');
     return tripToolHandlers.showTripModal(args, context);
@@ -452,5 +456,30 @@ export const toolRegistry: Record<string, ToolImplementation> = {
   getTripSummary: async (args, context) => {
     const { exportToolHandlers } = await import('./export-tool-handlers');
     return exportToolHandlers.getTripSummary(args, context);
+  },
+  exportToPDF: async (args, context) => {
+    const { exportToolHandlers } = await import('./export-tool-handlers');
+    return exportToolHandlers.exportToPDF(args, context);
+  },
+  exportToJSON: async (args, context) => {
+    const { exportToolHandlers } = await import('./export-tool-handlers');
+    return exportToolHandlers.exportToJSON(args, context);
+  },
+  exportToCSV: async (args, context) => {
+    const { exportToolHandlers } = await import('./export-tool-handlers');
+    return exportToolHandlers.exportToCSV(args, context);
+  },
+  // Activity tools
+  suggestActivities: async (args, context) => {
+    const { activityToolHandlers } = await import('./activity-tool-handlers');
+    return activityToolHandlers.suggestActivities(args, context);
+  },
+  findNearbyActivities: async (args, context) => {
+    const { activityToolHandlers } = await import('./activity-tool-handlers');
+    return activityToolHandlers.findNearbyActivities(args, context);
+  },
+  getActivityDetails: async (args, context) => {
+    const { activityToolHandlers } = await import('./activity-tool-handlers');
+    return activityToolHandlers.getActivityDetails(args, context);
   },
 };
