@@ -42,22 +42,37 @@ DROP POLICY IF EXISTS "Authenticated users can manage chat messages" ON chat_mes
 DROP POLICY IF EXISTS "Lobby members can view messages" ON chat_messages;
 DROP POLICY IF EXISTS "Lobby members can send messages" ON chat_messages;
 
--- Drop policies for ai_contexts table
-DROP POLICY IF EXISTS "Lobby members can view AI contexts" ON ai_contexts;
-DROP POLICY IF EXISTS "Lobby members can create AI contexts" ON ai_contexts;
-DROP POLICY IF EXISTS "Lobby members can update AI contexts" ON ai_contexts;
-DROP POLICY IF EXISTS "Lobby members can delete AI contexts" ON ai_contexts;
-DROP POLICY IF EXISTS "Anyone can manage AI contexts" ON ai_contexts;
+-- Drop policies for ai_contexts table (if exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'ai_contexts') THEN
+    DROP POLICY IF EXISTS "Lobby members can view AI contexts" ON ai_contexts;
+    DROP POLICY IF EXISTS "Lobby members can create AI contexts" ON ai_contexts;
+    DROP POLICY IF EXISTS "Lobby members can update AI contexts" ON ai_contexts;
+    DROP POLICY IF EXISTS "Lobby members can delete AI contexts" ON ai_contexts;
+    DROP POLICY IF EXISTS "Anyone can manage AI contexts" ON ai_contexts;
+  END IF;
+END $$;
 
--- Drop policies for accommodations table
-DROP POLICY IF EXISTS "Lobby members can view accommodations" ON accommodations;
-DROP POLICY IF EXISTS "Lobby members can manage accommodations" ON accommodations;
-DROP POLICY IF EXISTS "Anyone can manage accommodations" ON accommodations;
+-- Drop policies for accommodations table (if exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'accommodations') THEN
+    DROP POLICY IF EXISTS "Lobby members can view accommodations" ON accommodations;
+    DROP POLICY IF EXISTS "Lobby members can manage accommodations" ON accommodations;
+    DROP POLICY IF EXISTS "Anyone can manage accommodations" ON accommodations;
+  END IF;
+END $$;
 
--- Drop policies for transportation table
-DROP POLICY IF EXISTS "Lobby members can view transportation" ON transportation;
-DROP POLICY IF EXISTS "Lobby members can manage transportation" ON transportation;
-DROP POLICY IF EXISTS "Anyone can manage transportation" ON transportation;
+-- Drop policies for transportation table (if exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'transportation') THEN
+    DROP POLICY IF EXISTS "Lobby members can view transportation" ON transportation;
+    DROP POLICY IF EXISTS "Lobby members can manage transportation" ON transportation;
+    DROP POLICY IF EXISTS "Anyone can manage transportation" ON transportation;
+  END IF;
+END $$;
 
 -- Drop policies for trip_budgets if table exists
 DO $$
